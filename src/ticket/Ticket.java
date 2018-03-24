@@ -1,21 +1,21 @@
 package ticket;
 /**
  *
- * @author Marco
+ * @author Jahaira Alaniz
  */
 public class Ticket 
 {
-    private int number;
+    private int ticketNo;
     private String license;
     private String state;
-    private String permitnumber;
+    private String permit;
     private String model;
     private String color;
     private String reason;
     private String date;
     private String time;
     private String location;
-    private String issuedby;
+    private String issued;
     private String paymentinfo;
     private Boolean paid;
     public Ticket()
@@ -23,35 +23,39 @@ public class Ticket
         
     }
     
-    public Ticket(String license, String state, String permitnumber, String model, String color, String reason, String date, String time, String location, String issuedby, Boolean paid) {
+    public Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String issued, Boolean paid) {
         this.license = license;
         this.state = state;
-        this.permitnumber = permitnumber;
+        this.permit = permit;
         this.model = model;
         this.color = color;
         this.reason = reason;
         this.date = date;
         this.time = time;
         this.location = location;
-        this.issuedby = issuedby;
+        this.issued = issued;
         this.paid = paid;
+    }
+
+    Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String sued) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
     /**
      * @return the number
      */
-    public int getNumber()
+    public int getTicketNo()
     {
-        return number;
+        return ticketNo;
     }
 
     /**
-     * @param number the number to set
+     * @param ticket the number to set
      */
-    public void setNumber(int number)
+    public void setTicketNo(int ticketNo)
     {
-        this.number = number;
+        this.ticketNo = ticketNo;
     }
 
     /**
@@ -87,19 +91,19 @@ public class Ticket
     }
 
     /**
-     * @return the permitnumber
+     * @return the permit
      */
-    public String getPermitnumber()
+    public String getPermit()
     {
-        return permitnumber;
+        return permit;
     }
 
     /**
      * @param permitnumber the permitnumber to set
      */
-    public void setPermitnumber(String permitnumber) 
+    public void setPermit(String permit) 
     {
-        this.permitnumber = permitnumber;
+        this.permit = permit;
     }
 
     /**
@@ -199,19 +203,19 @@ public class Ticket
     }
 
     /**
-     * @return the issuedby
+     * @return the issued
      */
-    public String getIssuedby()
+    public String getIssued()
     {
-        return issuedby;
+        return issued;
     }
 
     /**
      * @param issuedby the issuedby to set
      */
-    public void setIssuedby(String issuedby) 
+    public void setIssued(String issued) 
     {
-        this.issuedby = issuedby;
+        this.issued = issued;
     }
 
     /**

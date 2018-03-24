@@ -11,46 +11,44 @@ import javafx.scene.layout.VBox;
 
 /**
  *
- * @author Marco
+ * @author Jahaira Alaniz
  */
 public class TicketView extends GridPane
 {    
     private int currentTicket = 0;
     //Creating the entry or display grid pane elements
-    private Label numberLabel = new Label("Ticket number");
-    private TextField numberTF = new TextField();
-    private Label licenseLabel = new Label("License number   ");
+    private Label ticketNoLabel = new Label("Ticket Number:");
+    private TextField ticketNoTF = new TextField();
+    private Label licenseLabel = new Label("License Number:");
     private TextField licenseTF = new TextField();
-    private Label stateLabel = new Label("State");
+    private Label stateLabel = new Label("State:");
     private TextField stateTF = new TextField();
-    private Label permitLabel = new Label("Permit number");
+    private Label permitLabel = new Label("Permit Number:");
     private TextField permitTF = new TextField();
-    private Label modelLabel = new Label("Model");
+    private Label modelLabel = new Label("Model:");
     private TextField modelTF = new TextField();
-    private Label colorLabel = new Label("Color");
+    private Label colorLabel = new Label("Color:");
     private TextField colorTF = new TextField();
-    private Label reasonLabel = new Label("Reason");
-    private Label dateLabel = new Label("Date");
+    private Label reasonLabel = new Label("Reason:");
+    private Label dateLabel = new Label("Date:");
     private TextField dateTF = new TextField();
-    private Label timeLabel = new Label("Time");
+    private Label timeLabel = new Label("Time:");
     private TextField timeTF = new TextField();
-    private Label locationLabel = new Label("Location");
+    private Label locationLabel = new Label("Location:");
     private TextField locationTF = new TextField();
-    private Label issuedLabel = new Label("Issued by");
+    private Label issuedLabel = new Label("Issued by:");
     private TextField issuedTF = new TextField();
     
-    //for the allowed options
-    private Button btn1 = new Button();
-    private Button btn2 = new Button();
-    private Button btn3 = new Button();
-    private Button btn4 = new Button();
-    private Button btn5 = new Button();
+    private Button submitBtn = new Button("Submit");
+    private Button previousBtn = new Button("<<");
+    private Button nextBtn = new Button(">>");
+    private Button changePaidBtn = new Button("Change Paid Status");
+    private Button exit = new Button("Exit");
     
-    //for the payment info
     private TextArea paymentTA = new TextArea();
     
     //for the feedback
-    private Label feedbackLabel = new Label("Feedback information:\nNot supported yet");
+    private Label paymentinfoLabel = new Label("Payment Information(Paid or Unpaid):\nNot supported yet");
     
     //creating the vertical boxes for the gridpane
     private VBox io1VBox = new VBox();
@@ -78,8 +76,8 @@ public class TicketView extends GridPane
                 + "For More Information on parking citations please visit:\n"
                 + "www.tsc.edu/parking\n");
         
-        //adding the labels and textfields into the vertical boxes
-        io1VBox.getChildren().addAll(numberLabel, licenseLabel, stateLabel,permitLabel,modelLabel,colorLabel,reasonLabel,
+//----------vertical boxes
+        io1VBox.getChildren().addAll(ticketNoLabel, licenseLabel, stateLabel,permitLabel,modelLabel,colorLabel,reasonLabel,
                 dateLabel,timeLabel,locationLabel,issuedLabel);
         io1VBox.setSpacing(9);
         io1VBox.setAlignment(Pos.CENTER);
@@ -91,30 +89,29 @@ public class TicketView extends GridPane
         comboBox.getItems().addAll("Blocking driveway, access or other vehicle", "Parked in 2 spaces");
         comboBox.getItems().addAll("Expired meter", "Other reason");
                 
-        io2VBox.getChildren().addAll(numberTF,licenseTF,stateTF,permitTF,modelTF,colorTF,comboBox,dateTF,timeTF,
+        io2VBox.getChildren().addAll(ticketNoTF,licenseTF,stateTF,permitTF,modelTF,colorTF,comboBox,dateTF,timeTF,
                 locationTF,issuedTF);
         io2VBox.setAlignment(Pos.CENTER);
         
-        //adding the buttons to the vbox
-        allowedVBox.getChildren().addAll(btn1, btn2, btn3, btn4, btn5);
+//----------------buttons for vbox
+        allowedVBox.getChildren().addAll(submitBtn, previousBtn, nextBtn, changePaidBtn, exit);
         
-        //creating the actions for the buttons
-        btn1.setText("Create ticket");
-        btn2.setText("<<");
-        btn3.setText(">>");
-        btn4.setText("Change status");
-        btn5.setText("Exit");
-        
-        //adding the final components into the grid pane
+ //---------------display       
         this.add(allowedVBox, 0, 1, 1,1);
         this.add(io1VBox, 1,1,1,1);
         this.add(io2VBox, 2,1,1,1);
         this.add(paymentTA,3,1,1,1);
-        this.add(feedbackLabel,2,2,2,1);
-        //vertical and horizontal separation
+        this.add(paymentinfoLabel,2,2,2,1);
         this.setHgap(15);
         this.setVgap(50);
         this.setAlignment(Pos.CENTER);
+        
+        this.add(submitBtn,2,3,1,1);
+        this.add(previousBtn,2,3,2,2);
+        this.add(nextBtn,2,3,2,3);
+        this.add(changePaidBtn,2,3,2,4);  
+        this.add(exit,2,3,2,5);
+        
     }
 
     public int getCurrentTicket()
@@ -127,24 +124,24 @@ public class TicketView extends GridPane
         this.currentTicket = currentTicket;
     }
 
-    public Label getNumberLabel()
+    public Label getTicketNoLabel()
     {
-        return numberLabel;
+        return ticketNoLabel;
     }
 
-    public void setNumberLabel(Label numberLabel)
+    public void setTicketNoLabel(Label ticketNoLabel)
     {
-        this.numberLabel = numberLabel;
+        this.ticketNoLabel = ticketNoLabel;
     }
 
-    public TextField getNumberTF()
+    public TextField getTicketNoTF()
     {
-        return numberTF;
+        return ticketNoTF;
     }
 
-    public void setNumberTF(TextField numberTF)
+    public void setTicketNoTF(TextField ticketNoTF)
     {
-        this.numberTF = numberTF;
+        this.ticketNoTF = ticketNoTF;
     }
 
     public Label getLicenseLabel()
@@ -337,54 +334,54 @@ public class TicketView extends GridPane
         this.issuedTF = issuedTF;
     }
 
-    public Button getBtn1()
+    public Button getSubmitBtn()
     {
-        return btn1;
+        return submitBtn;
     }
 
-    public void setBtn1(Button btn1)
+    public void setSubmitBtn(Button submitBtn)
     {
-        this.btn1 = btn1;
+        this.submitBtn = submitBtn;
     }
 
-    public Button getBtn2()
+    public Button getPreviousBtn()
     {
-        return btn2;
+        return previousBtn;
     }
 
-    public void setBtn2(Button btn2)
+    public void setPreviousBtn(Button previousBtn)
     {
-        this.btn2 = btn2;
+        this.previousBtn = previousBtn;
     }
 
-    public Button getBtn3()
+    public Button getNextBtn()
     {
-        return btn3;
+        return nextBtn;
     }
 
-    public void setBtn3(Button btn3)
+    public void setNextBtn(Button nextBtn)
     {
-        this.btn3 = btn3;
+        this.nextBtn = nextBtn;
     }
 
-    public Button getBtn4()
+    public Button getChangePaidBtn()
     {
-        return btn4;
+        return changePaidBtn;
     }
 
-    public void setBtn4(Button btn4)
+    public void setChangePaidBtn(Button changePaidBtn)
     {
-        this.btn4 = btn4;
+        this.changePaidBtn = changePaidBtn;
     }
 
-    public Button getBtn5()
+    public Button getExit()
     {
-        return btn5;
+        return exit;
     }
 
-    public void setBtn5(Button btn5)
+    public void setExit(Button exit)
     {
-        this.btn5 = btn5;
+        this.exit = exit;
     }
 
     public TextArea getPaymentTA()
@@ -397,14 +394,14 @@ public class TicketView extends GridPane
         this.paymentTA = paymentTA;
     }
 
-    public Label getFeedbackLabel()
+    public Label getPaymentinfoLabel()
     {
-        return feedbackLabel;
+        return paymentinfoLabel;
     }
 
-    public void setFeedbackLabel(Label feedbackLabel)
+    public void setFeedbackLabel(Label paymentinfoLabel)
     {
-        this.feedbackLabel = feedbackLabel;
+        this.paymentinfoLabel = paymentinfoLabel;
     }
 
     public ComboBox getCurrentReason()
@@ -417,4 +414,8 @@ public class TicketView extends GridPane
     {
         comboBox.setValue(reason);
     }   
+
+    void Error() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

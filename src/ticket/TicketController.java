@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 
 /**
  *
- * @author Marco
+ * @author Jahaira Alaniz
  */
 public class TicketController
 {
@@ -22,7 +22,7 @@ public class TicketController
     
     public void attachHandlers()
     {
-        ticketView.getBtn1().setOnAction(new EventHandler<ActionEvent>() {
+        ticketView.getSubmitBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
@@ -50,8 +50,8 @@ public class TicketController
                 
                 ticketModel.createTicket(license, state, permit, model, color, reason, date, time, location, issued);
 
-                ticketView.getFeedbackLabel().setText("Feedback information\nTicket has been created.");
-                ticketView.getNumberTF().clear();
+                ticketView.getPaymentinfoLabel().setText("Citation Information\nTicket created.");
+                ticketView.getTicketNoTF().clear();
                 ticketView.getLicenseTF().clear();
                 ticketView.getStateTF().clear();
                 ticketView.getPermitTF().clear();
@@ -63,7 +63,7 @@ public class TicketController
                 ticketView.getIssuedTF().clear();
             }
         } );
-        ticketView.getBtn2().setOnAction(new EventHandler<ActionEvent>() {
+        ticketView.getPreviousBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
@@ -73,7 +73,7 @@ public class TicketController
                 showInformation();
             }
         } );
-        ticketView.getBtn3().setOnAction(new EventHandler<ActionEvent>() {
+        ticketView.getNextBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
@@ -83,15 +83,15 @@ public class TicketController
                 showInformation();
             }
         } );
-        ticketView.getBtn4().setOnAction(new EventHandler<ActionEvent>() {
+        ticketView.getChangePaidBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
                 ticketModel.changePaidStatus(currentTicket);
-                ticketView.getFeedbackLabel().setText("Feedback information\nCurrent ticket is now "+ticketModel.getCurrentPaidStatus(currentTicket));
+                ticketView.getPaymentinfoLabel().setText("Citaiton information\nCurrent ticket is: "+ticketModel.getCurrentPaidStatus(currentTicket));
             }
         } );
-        ticketView.getBtn5().setOnAction(new EventHandler<ActionEvent>() {
+        ticketView.getExit().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
@@ -102,18 +102,18 @@ public class TicketController
     }
     public void showInformation()
     {
-        ticketView.getNumberTF().setText(""+currentTicket);
+        ticketView.getTicketNoTF().setText(""+currentTicket);
         ticketView.getLicenseTF().setText(ticketModel.getCurrentTicketLicenseNumber(currentTicket));
         ticketView.getStateTF().setText(ticketModel.getCurrentState(currentTicket));
-        ticketView.getPermitTF().setText(ticketModel.getCurrentPermitNumber(currentTicket));
+        ticketView.getPermitTF().setText(ticketModel.getCurrentPermit(currentTicket));
         ticketView.getModelTF().setText(ticketModel.getCurrentModel(currentTicket));
         ticketView.getColorTF().setText(ticketModel.getCurrentColor(currentTicket));
         ticketView.setCurrentReason(ticketModel.getCurrentReason(currentTicket));
         ticketView.getDateTF().setText(ticketModel.getCurrentDate(currentTicket));
         ticketView.getTimeTF().setText(ticketModel.getCurrentTime(currentTicket));
         ticketView.getLocationTF().setText(ticketModel.getCurrentLocation(currentTicket));
-        ticketView.getIssuedTF().setText(ticketModel.getCurrentIssuedBy(currentTicket));
+        ticketView.getIssuedTF().setText(ticketModel.getCurrentIssued(currentTicket));
         ticketView.getPaymentTA().setText(ticketModel.getPaymentInformation()); 
-        ticketView.getFeedbackLabel().setText("Feedback information\nCurrent ticket is "+ticketModel.getCurrentPaidStatus(currentTicket));
+        ticketView.getPaymentinfoLabel().setText("Current ticket is "+ticketModel.getCurrentPaidStatus(currentTicket));
     }
 }

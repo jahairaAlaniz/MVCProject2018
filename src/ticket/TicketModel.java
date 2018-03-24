@@ -5,27 +5,154 @@
  */
 package ticket;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
- * @author Marco
+ * @author Jahaira Alaniz
  */
 public class TicketModel
 {
     private ArrayList<Ticket> ticketList = new ArrayList<>();
+    
+    private Scanner read;
+    private File fileName = new File("tickets.dat");
+    private ArrayList<Ticket>ticketDB = new ArrayList<>();
+    Ticket currentTicket = new Ticket();
+    TicketView GUI = new TicketView();
+    
+    public void setCurrentTicket(Ticket currentTicket)
+    {
+        this.currentTicket = currentTicket;
+        WriteFile();
+        ReadFile();
+    }
+    
+     public Ticket getCurrentTicket()
+    {
+        return currentTicket;
+    }
+     
+      public ArrayList<Ticket> getCurrentTickets()
+    {
+        return getTicketList();
+    }
+
+    /**
+     * @return the ticketDB
+     */
+    public ArrayList<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    /**
+     * @param ticketDB the ticketDB to set
+     */
+    public void setTicketDB(ArrayList<Ticket> ticketDB) {
+        this.ticketList = ticketList;
+    }
+    
+    public void WriteFile()
+    {
+        
+        
+        try{
+            
+            FileWriter fw = new FileWriter(fileName, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter tix = new PrintWriter(bw);
+            
+        
+            
+            
+            String license = currentTicket.getLicense();
+            String state = currentTicket.getState();            
+            String permit = currentTicket.getPermit();
+            String model = currentTicket.getModel();
+            String color = currentTicket.getColor();
+            String reason = currentTicket.getReason();           
+            String date = currentTicket.getDate();
+            String time = currentTicket.getTime();            
+            String location = currentTicket.getLocation();
+            String issued = currentTicket.getIssued();
+
+            
+            
+            tix.write(license + " " + state + " " + permit + " " + model + " " + color+ " " + reason + " " + date + " " + time +" "+ location + " " + issued +"\n");
+            
+           
+        
+        
+        tix.close();
+        
+        
+        
+      }
+      catch(Exception ex)
+      {
+          GUI.Error();
+      }
+    
+        
+    }
+    
+    
+    public void ReadFile(){
+        try{
+            BufferedWriter bw = null;
+            bw = new BufferedWriter (new FileWriter("tickets.dat", true));
+            Scanner input = new Scanner(fileName);
+            
+            
+            
+            while(input.hasNext()){
+            String license = input.next();
+            String state = input.next();
+            String permit =  input.next();
+            String model  = input.next();
+            String color = input.next();
+            String reason = input.next();
+            String date = input.next();
+            String time = input.next();
+            String location = input.next();
+            String issued = input.next();
+
+               
+              Ticket currentData = new Ticket(license,state,permit,model,color,reason, date,time,location,issued);
+               ticketList.add(currentData);
+               int x = ticketList.size();
+               System.out.println(x);
+            }
+            input.close();
+        }
+        catch(IOException ex)
+        {
+            GUI.Error();
+        }
+    
+    
+}
+
+    
+    
     private static int ticketnumber = 1;
     public void createTicket(String a, String b, String c, String d, String e, String f, String g, String h, String i, String j)
     {
         Ticket t = new Ticket();
-        t.setNumber(ticketnumber);
+        t.setTicketNo(ticketnumber);
         ticketnumber++;
         //license number
         t.setLicense(a);
         //state
         t.setState(b);
         //permit number
-        t.setPermitnumber(c);
+        t.setPermit(c);
         //vehicle model
         t.setModel(d);
         //color
@@ -39,7 +166,7 @@ public class TicketModel
         //location
         t.setLocation(i);
         //issued by
-        t.setIssuedby(j);
+        t.setIssued(j);
         t.setPaymentinfo("PAYMENTS\n"
                 + "Payments can be made at the following office:\n"
                 + "Business Office, Tandy 107\n"
@@ -55,7 +182,7 @@ public class TicketModel
                 + "For More Information on parking citations please visit:\n"
                 + "www.tsc.edu/parking\n");
         t.setPaid(false);
-        //adding the created object to the arraylist
+
         ticketList.add(t);
     }
     
@@ -63,9 +190,9 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
-                return ticket.getNumber();
+                return ticket.getTicketNo();
             }
         }
         return 0;
@@ -75,7 +202,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getLicense().compareTo("")!=0)
                     return ticket.getLicense();
@@ -90,7 +217,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getState().compareTo("")!=0)
                     return ticket.getState();
@@ -101,14 +228,14 @@ public class TicketModel
         return "";
     }   
     
-    public String getCurrentPermitNumber(int currentTicket)
+    public String getCurrentPermit(int currentTicket)
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
-                if(ticket.getPermitnumber().compareTo("") != 0)
-                    return ticket.getPermitnumber();
+                if(ticket.getPermit().compareTo("") != 0)
+                    return ticket.getPermit();
                 else
                     return "---";
             }
@@ -120,7 +247,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getModel().compareTo("") != 0)
                     return ticket.getModel();
@@ -135,7 +262,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getColor().compareTo("")!=0)
                     return ticket.getColor();
@@ -149,7 +276,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getReason().compareTo("")!=0)
                     return ticket.getReason();
@@ -163,7 +290,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getDate().compareTo("")!=0)
                     return ticket.getDate();
@@ -177,7 +304,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getTime().compareTo("")!=0)
                     return ticket.getTime();
@@ -191,7 +318,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getLocation().compareTo("")!=0)
                     return ticket.getLocation();
@@ -201,14 +328,14 @@ public class TicketModel
         }
         return "";
     }   
-    public String getCurrentIssuedBy(int currentTicket)
+    public String getCurrentIssued(int currentTicket)
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
-                if(ticket.getIssuedby().compareTo("")!=0)
-                    return ticket.getIssuedby();
+                if(ticket.getIssued().compareTo("")!=0)
+                    return ticket.getIssued();
                 else
                     return "---";
             }
@@ -237,7 +364,7 @@ public class TicketModel
     {
         for(Ticket ticket : ticketList)
         {
-            if(ticket.getNumber() == currentTicket)
+            if(ticket.getTicketNo() == currentTicket)
             {
                 if(ticket.getPaid())
                     return "paid";
@@ -251,7 +378,7 @@ public class TicketModel
     {
         for (int i = 0; i < ticketList.size(); i++) 
         {
-            if(ticketList.get(i).getNumber() == currentTicket)
+            if(ticketList.get(i).getTicketNo() == currentTicket)
             {
                 if(ticketList.get(i).getPaid())
                     ticketList.get(i).setPaid(false);
@@ -261,9 +388,5 @@ public class TicketModel
 
         }
     }
-    public ArrayList<Ticket> getTicketList()
-    {
-        return ticketList;
-    }
-    
+   
 }
