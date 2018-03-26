@@ -5,7 +5,6 @@ package ticket;
  */
 public class Ticket 
 {
-    private int ticketNo;
     private String license;
     private String state;
     private String permit;
@@ -16,14 +15,15 @@ public class Ticket
     private String time;
     private String location;
     private String issued;
-    private String paymentinfo;
-    private Boolean paid;
+    
+    
     public Ticket()
     {
         
     }
     
-    public Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String issued, Boolean paid) {
+    public Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String issued) {
+   
         this.license = license;
         this.state = state;
         this.permit = permit;
@@ -34,29 +34,10 @@ public class Ticket
         this.time = time;
         this.location = location;
         this.issued = issued;
-        this.paid = paid;
+        
     }
 
-    Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String sued) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
-    
-    /**
-     * @return the number
-     */
-    public int getTicketNo()
-    {
-        return ticketNo;
-    }
-
-    /**
-     * @param ticket the number to set
-     */
-    public void setTicketNo(int ticketNo)
-    {
-        this.ticketNo = ticketNo;
-    }
 
     /**
      * @return the license
@@ -211,36 +192,10 @@ public class Ticket
     }
 
     /**
-     * @param issuedby the issuedby to set
+     * @param issued the issuedby to set
      */
     public void setIssued(String issued) 
     {
         this.issued = issued;
-    }
-
-    /**
-     * @return the paymentinfo
-     */
-    public String getPaymentinfo() 
-    {
-        return paymentinfo;
-    }
-
-    /**
-     * @param paymentinfo the paymentinfo to set
-     */
-    public void setPaymentinfo(String paymentinfo)
-    {
-        this.paymentinfo = paymentinfo;
-    }
-    
-    public void setPaid(Boolean paid)
-    {
-        this.paid = paid;
-    }
-    
-    public Boolean getPaid()
-    {
-        return paid;
     }
 }

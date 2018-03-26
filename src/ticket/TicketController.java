@@ -1,5 +1,6 @@
 package ticket;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -9,9 +10,11 @@ import javafx.event.EventHandler;
  */
 public class TicketController
 {
-    private int currentTicket = 0;
     private TicketModel ticketModel;
     private TicketView ticketView;
+    int j = 0;
+    
+    
     
     public TicketController(TicketModel ticketModel, TicketView ticketView)
     {
@@ -21,76 +24,119 @@ public class TicketController
     }
     
     public void attachHandlers()
+            
     {
+              ticketView.getViewBtn().setOnAction(
+              new EventHandler<ActionEvent>(){
+              @Override
+              public void handle(ActionEvent event)
+              {
+                    
+                 ArrayList<Ticket> Tickets = ticketModel.getCurrentTickets();
+		 	
+		ticketView.updateTicketViewAll(Tickets);
+                ticketModel.ReadFile();
+               }
+               }
+             
+      
+      );  
+        
         ticketView.getSubmitBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
-                String license;
-                String state;
-                String permit;
-                String model;
-                String color;
-                String reason;
-                String date;
-                String time;
-                String location;
-                String issued;
+                String license = ticketView.getLicenseTF().getText();
+                String state = ticketView.getStateTF().getText();
+                String permit = ticketView.getPermitTF().getText();
+                String model = ticketView.getModelTF().getText();
+                String color = ticketView.getColorTF().getText();
+                String reason = ticketView.getReasonInfoTF().getText();
+                String date = ticketView.getDateTF().getText();
+                String time = ticketView.getTimeTF().getText();
+                String location = ticketView.getLocationTF().getText();
+                String issued = ticketView.getIssuedTF().getText();
                 
-                license = ticketView.getLicenseTF().getText();
-                state = ticketView.getStateTF().getText();
-                permit = ticketView.getPermitTF().getText();
-                model = ticketView.getModelTF().getText();
-                color = ticketView.getColorTF().getText();
-                reason = ticketView.getCurrentReason().getValue().toString();
-                date = ticketView.getDateTF().getText();
-                time = ticketView.getTimeTF().getText();
-                location = ticketView.getLocationTF().getText();
-                issued = ticketView.getIssuedTF().getText();
                 
-                ticketModel.createTicket(license, state, permit, model, color, reason, date, time, location, issued);
+                 if(ticketView.getBox1().isSelected())
+                        reason = ticketView.getReason1();
+                    if(ticketView.getBox2().isSelected())
+                        reason = ticketView.getReason2();
+                    if(ticketView.getBox3().isSelected())
+                        reason = ticketView.getReason3();
+                    if(ticketView.getBox4().isSelected())
+                        reason = ticketView.getReason4();
+                    if(ticketView.getBox5().isSelected())
+                        reason = ticketView.getReason5();
+                    if(ticketView.getBox6().isSelected())
+                        reason = ticketView.getReason6();
+                    if(ticketView.getBox7().isSelected())
+                        reason = ticketView.getReason7();
+                    if(ticketView.getBox8().isSelected())
+                        reason = ticketView.getReason8();
+                    if(ticketView.getBox9().isSelected())
+                        reason = ticketView.getReasonInfoTF().getText();
+                    
+                
+                
+                Ticket currentTicket1 = new Ticket(license,state,permit,model,color,reason,date,time,location,issued);
+                ticketModel.setCurrentTicket1(currentTicket1);
+                ticketView.clearFields();
 
-                ticketView.getPaymentinfoLabel().setText("Citation Information\nTicket created.");
-                ticketView.getTicketNoTF().clear();
-                ticketView.getLicenseTF().clear();
-                ticketView.getStateTF().clear();
-                ticketView.getPermitTF().clear();
-                ticketView.getModelTF().clear();
-                ticketView.getColorTF().clear();
-                ticketView.getDateTF().clear();
-                ticketView.getTimeTF().clear();
-                ticketView.getLocationTF().clear();
-                ticketView.getIssuedTF().clear();
             }
-        } );
+            }
+        
+        );
+
+        
         ticketView.getPreviousBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
-                currentTicket--;
-                if(currentTicket < 1)
-                    currentTicket = 1;
-                showInformation();
+                ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
+                ticketView.updateViewNext(currentData);
+                ticketModel.ReadFile();
             }
         } );
+        
+        
         ticketView.getNextBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
-                currentTicket++;
-                if(currentTicket > ticketModel.getTicketList().size())
-                    currentTicket = ticketModel.getTicketList().size();
-                showInformation();
+                ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
+                ticketView.updateViewNext(currentData);
+                ticketModel.ReadFile();
             }
         } );
-        ticketView.getChangePaidBtn().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                ticketModel.changePaidStatus(currentTicket);
-                ticketView.getPaymentinfoLabel().setText("Citaiton information\nCurrent ticket is: "+ticketModel.getCurrentPaidStatus(currentTicket));
-            }
-        } );
+        
+        
+         ticketView.getFeedbackSubmitBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    ticketView.getFeedbackTA().clear();
+                }
+                }
+      
+      );
+             
+      
+      ticketView.getClearViewBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    ticketView.getViewTA().clear();
+                }
+                }
+      
+      );
+
+        
+        
+        
         ticketView.getExit().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
@@ -99,21 +145,5 @@ public class TicketController
             }
         } );
         
-    }
-    public void showInformation()
-    {
-        ticketView.getTicketNoTF().setText(""+currentTicket);
-        ticketView.getLicenseTF().setText(ticketModel.getCurrentTicketLicenseNumber(currentTicket));
-        ticketView.getStateTF().setText(ticketModel.getCurrentState(currentTicket));
-        ticketView.getPermitTF().setText(ticketModel.getCurrentPermit(currentTicket));
-        ticketView.getModelTF().setText(ticketModel.getCurrentModel(currentTicket));
-        ticketView.getColorTF().setText(ticketModel.getCurrentColor(currentTicket));
-        ticketView.setCurrentReason(ticketModel.getCurrentReason(currentTicket));
-        ticketView.getDateTF().setText(ticketModel.getCurrentDate(currentTicket));
-        ticketView.getTimeTF().setText(ticketModel.getCurrentTime(currentTicket));
-        ticketView.getLocationTF().setText(ticketModel.getCurrentLocation(currentTicket));
-        ticketView.getIssuedTF().setText(ticketModel.getCurrentIssued(currentTicket));
-        ticketView.getPaymentTA().setText(ticketModel.getPaymentInformation()); 
-        ticketView.getPaymentinfoLabel().setText("Current ticket is "+ticketModel.getCurrentPaidStatus(currentTicket));
     }
 }

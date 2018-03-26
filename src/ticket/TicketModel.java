@@ -19,24 +19,23 @@ import java.util.Scanner;
  */
 public class TicketModel
 {
-    private ArrayList<Ticket> ticketList = new ArrayList<>();
     
     private Scanner read;
-    private File fileName = new File("tickets.dat");
-    private ArrayList<Ticket>ticketDB = new ArrayList<>();
-    Ticket currentTicket = new Ticket();
-    TicketView GUI = new TicketView();
+    private File fileName = new File("tickets.dat"); 
+    private ArrayList<Ticket> ticketList = new ArrayList<>();
+    Ticket currentTicket1 = new Ticket();
+    TicketView ticketView = new TicketView();
     
-    public void setCurrentTicket(Ticket currentTicket)
+    public void setCurrentTicket1(Ticket currentTicket1)
     {
-        this.currentTicket = currentTicket;
+        this.currentTicket1 = currentTicket1;
         WriteFile();
         ReadFile();
     }
     
-     public Ticket getCurrentTicket()
+     public Ticket getCurrentTicket1()
     {
-        return currentTicket;
+        return currentTicket1;
     }
      
       public ArrayList<Ticket> getCurrentTickets()
@@ -54,7 +53,7 @@ public class TicketModel
     /**
      * @param ticketDB the ticketDB to set
      */
-    public void setTicketDB(ArrayList<Ticket> ticketDB) {
+    public void setTicketList(ArrayList<Ticket> ticketList) {
         this.ticketList = ticketList;
     }
     
@@ -67,20 +66,18 @@ public class TicketModel
             FileWriter fw = new FileWriter(fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter tix = new PrintWriter(bw);
-            
-        
-            
-            
-            String license = currentTicket.getLicense();
-            String state = currentTicket.getState();            
-            String permit = currentTicket.getPermit();
-            String model = currentTicket.getModel();
-            String color = currentTicket.getColor();
-            String reason = currentTicket.getReason();           
-            String date = currentTicket.getDate();
-            String time = currentTicket.getTime();            
-            String location = currentTicket.getLocation();
-            String issued = currentTicket.getIssued();
+
+            String license = currentTicket1.getLicense();
+            String state = currentTicket1.getState();            
+            String permit = currentTicket1.getPermit();
+            String model = currentTicket1.getModel();
+            String color = currentTicket1.getColor();
+            String reason = currentTicket1.getReason();           
+            String date = currentTicket1.getDate();
+            String time = currentTicket1.getTime();            
+            String location = currentTicket1.getLocation();
+            String issued = currentTicket1.getIssued();
+ 
 
             
             
@@ -96,7 +93,7 @@ public class TicketModel
       }
       catch(Exception ex)
       {
-          GUI.Error();
+          ticketView.Error();
       }
     
         
@@ -122,6 +119,7 @@ public class TicketModel
             String time = input.next();
             String location = input.next();
             String issued = input.next();
+            
 
                
               Ticket currentData = new Ticket(license,state,permit,model,color,reason, date,time,location,issued);
@@ -133,260 +131,10 @@ public class TicketModel
         }
         catch(IOException ex)
         {
-            GUI.Error();
+            ticketView.Error();
         }
     
     
 }
 
-    
-    
-    private static int ticketnumber = 1;
-    public void createTicket(String a, String b, String c, String d, String e, String f, String g, String h, String i, String j)
-    {
-        Ticket t = new Ticket();
-        t.setTicketNo(ticketnumber);
-        ticketnumber++;
-        //license number
-        t.setLicense(a);
-        //state
-        t.setState(b);
-        //permit number
-        t.setPermit(c);
-        //vehicle model
-        t.setModel(d);
-        //color
-        t.setColor(e);
-        //reason
-        t.setReason(f);
-        //date
-        t.setDate(g);
-        //time
-        t.setTime(h);
-        //location
-        t.setLocation(i);
-        //issued by
-        t.setIssued(j);
-        t.setPaymentinfo("PAYMENTS\n"
-                + "Payments can be made at the following office:\n"
-                + "Business Office, Tandy 107\n"
-                + "Monday thru Friday 8:00 am - 5:00 pm\n"
-                + "$25 per citation, other fees may apply\n"
-                + "$100 for boot removal\n"
-                + "Payment can be mailed to the following address:\n"
-                + "TSC C/O Finance Dept\n"
-                + "Attn: Parking Enforcement\n"
-                + "80 Fort Brown\n"
-                + "Brownsville, TX 78520\n"
-                + "DO NOT MAIL IN CASH!\n"
-                + "For More Information on parking citations please visit:\n"
-                + "www.tsc.edu/parking\n");
-        t.setPaid(false);
-
-        ticketList.add(t);
-    }
-    
-    public int getCurrentTicketNumber(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                return ticket.getTicketNo();
-            }
-        }
-        return 0;
-    }
-    
-    public String getCurrentTicketLicenseNumber(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getLicense().compareTo("")!=0)
-                    return ticket.getLicense();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }
-    
-    public String getCurrentState(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getState().compareTo("")!=0)
-                    return ticket.getState();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    
-    public String getCurrentPermit(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getPermit().compareTo("") != 0)
-                    return ticket.getPermit();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    
-    public String getCurrentModel(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getModel().compareTo("") != 0)
-                    return ticket.getModel();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }
-    
-    public String getCurrentColor(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getColor().compareTo("")!=0)
-                    return ticket.getColor();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getCurrentReason(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getReason().compareTo("")!=0)
-                    return ticket.getReason();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getCurrentDate(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getDate().compareTo("")!=0)
-                    return ticket.getDate();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getCurrentTime(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getTime().compareTo("")!=0)
-                    return ticket.getTime();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getCurrentLocation(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getLocation().compareTo("")!=0)
-                    return ticket.getLocation();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getCurrentIssued(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getIssued().compareTo("")!=0)
-                    return ticket.getIssued();
-                else
-                    return "---";
-            }
-        }
-        return "";
-    }   
-    public String getPaymentInformation()
-    {
-        return "PAYMENTS\n"
-                + "Payments can be made at the following office:\n"
-                + "Business Office, Tandy 107\n"
-                + "Monday thru Friday 8:00 am - 5:00 pm\n"
-                + "$25 per citation, other fees may apply\n"
-                + "$100 for boot removal\n"
-                + "Payment can be mailed to the following address:\n"
-                + "TSC C/O Finance Dept\n"
-                + "Attn: Parking Enforcement\n"
-                + "80 Fort Brown\n"
-                + "Brownsville, TX 78520\n"
-                + "DO NOT MAIL IN CASH!\n"
-                + "For More Information on parking citations please visit:\n"
-                + "www.tsc.edu/parking\n";
-    }
-    
-    public String getCurrentPaidStatus(int currentTicket)
-    {
-        for(Ticket ticket : ticketList)
-        {
-            if(ticket.getTicketNo() == currentTicket)
-            {
-                if(ticket.getPaid())
-                    return "paid";
-                else
-                    return "unpaid";
-            }
-        }
-        return "";
-    }
-    public void changePaidStatus(int currentTicket)
-    {
-        for (int i = 0; i < ticketList.size(); i++) 
-        {
-            if(ticketList.get(i).getTicketNo() == currentTicket)
-            {
-                if(ticketList.get(i).getPaid())
-                    ticketList.get(i).setPaid(false);
-                else
-                    ticketList.get(i).setPaid(true);
-            }
-
-        }
-    }
-   
 }

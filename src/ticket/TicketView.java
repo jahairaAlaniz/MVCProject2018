@@ -1,149 +1,347 @@
 package ticket;
 
+import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 /**
  *
  * @author Jahaira Alaniz
  */
-public class TicketView extends GridPane
+public class TicketView extends BorderPane
 {    
     private int currentTicket = 0;
+    
+    private BorderPane root = new BorderPane();
+    private GridPane gridpane = new GridPane();
     //Creating the entry or display grid pane elements
-    private Label ticketNoLabel = new Label("Ticket Number:");
-    private TextField ticketNoTF = new TextField();
+    
+    private Label titleLabel = new Label("Parking Citation");
+
+
     private Label licenseLabel = new Label("License Number:");
     private TextField licenseTF = new TextField();
+    
     private Label stateLabel = new Label("State:");
     private TextField stateTF = new TextField();
+    
     private Label permitLabel = new Label("Permit Number:");
     private TextField permitTF = new TextField();
+    
     private Label modelLabel = new Label("Model:");
     private TextField modelTF = new TextField();
+    
     private Label colorLabel = new Label("Color:");
     private TextField colorTF = new TextField();
+    
     private Label reasonLabel = new Label("Reason:");
+    private TextField reasonInfoTF = new TextField();
+    
     private Label dateLabel = new Label("Date:");
     private TextField dateTF = new TextField();
+    
     private Label timeLabel = new Label("Time:");
     private TextField timeTF = new TextField();
+    
     private Label locationLabel = new Label("Location:");
     private TextField locationTF = new TextField();
+    
     private Label issuedLabel = new Label("Issued by:");
     private TextField issuedTF = new TextField();
+
     
+    //feedback
+    private Label feedbackLabel = new Label("Feedback");
+    private TextArea feedbackTA = new TextArea();
+    
+    private TextArea viewTA = new TextArea();
+   
+    
+    //creating the vertical boxes for the gridpane
+    
+    
+    //payment info
+    private Label paymentInfoLabel = new Label("Payment Information");
+    private Label paymentTextLabel = new Label("Payments can be made at the following office\n"
+                             +"Business Office Tandy 107\n"
+                             +"Monday thru Friday: 8:00 am - 5:00 pm\n"
+                             +"$25 per citation, other fees may apply\n"
+                             +"$100 for boot removal\n"
+                                + "\n"
+                             +"Payments can be mailed to the following address:\n"
+                            + "TSC\n"
+                            + "C/O Finance Dept\n"
+                            + "Attn: Parking Enforcement\n"
+                            + "80 Fort Brown\n"
+                            + "Brownsville, TX 78520\n"
+                            + "\n"
+                            + "DO NOT MAIL CASH!\n"
+                            + "For more Information on parking citations please visit:\n"
+                            + "www.tsc.edu/parking");
+    //reason checklist
+    private String reason1 = "Vehicle has no Permit";
+    private String reason2 = "Parked in no Parking Area/Space";
+    private String reason3 = "Parked in Fire Lane";
+    private String reason4 = "Parked in Handicap Space";
+    private String reason5 = "Parked Reserved or Assigned Space";
+    private String reason6 = "Blocking Driveway, Access, or Other Vehicle";
+    private String reason7 = "Parked in 2 spaces";
+    private String reason8 = "Expired Meter";
+    private String reason9 = "Other:";
+    
+    private CheckBox box1 = new CheckBox(reason1);
+    private CheckBox box2 = new CheckBox(reason2);
+    private CheckBox box3 = new CheckBox(reason3);
+    private CheckBox box4 = new CheckBox(reason4);
+    private CheckBox box5 = new CheckBox(reason5);
+    private CheckBox box6 = new CheckBox(reason6);
+    private CheckBox box7 = new CheckBox(reason7);
+    private CheckBox box8 = new CheckBox(reason8);
+    private CheckBox box9 = new CheckBox(reason9);
+    
+    //buttons  
     private Button submitBtn = new Button("Submit");
     private Button previousBtn = new Button("<<");
     private Button nextBtn = new Button(">>");
-    private Button changePaidBtn = new Button("Change Paid Status");
+    private Button viewBtn = new Button("View All");
+    private Button feedbackSubmitBtn = new Button("Submit");
+    private Button clearViewBtn = new Button("Clear");    
     private Button exit = new Button("Exit");
     
-    private TextArea paymentTA = new TextArea();
+    private HBox arrowBtnHbox = new HBox(previousBtn, nextBtn);
+    private HBox reasonInfoHbox = new HBox(box9, reasonInfoTF);    
     
-    //for the feedback
-    private Label paymentinfoLabel = new Label("Payment Information(Paid or Unpaid):\nNot supported yet");
+    //all VBox
+    private VBox licenseVBox = new VBox(licenseLabel, licenseTF);
+    private VBox stateVBox = new VBox(stateLabel, stateTF);
+    private VBox permitVBox = new VBox(permitLabel, permitTF);
+    private VBox modelVBox = new VBox(modelLabel, modelTF);
+    private VBox colorVBox = new VBox(colorLabel, colorTF);
+    private VBox dateVBox = new VBox(dateLabel, dateTF);
+    private VBox timeVBox = new VBox(timeLabel, timeTF);
+    private VBox locationVBox = new VBox(locationLabel, locationTF);
+    private VBox issuedVBox = new VBox(issuedLabel, issuedTF);
+    private VBox checkboxVbox = new VBox(reasonLabel,box1, box2, box3, box4, box5, box6, box7, box8, reasonInfoHbox);
+    private VBox viewBtnVbox = new VBox(viewBtn, arrowBtnHbox, clearViewBtn);
+ 
+    private VBox feedbackVBox = new VBox(getFeedbackLabel(), getFeedbackTA(), feedbackSubmitBtn); 
+    private VBox paymentInfoVbox = new VBox(paymentInfoLabel, paymentTextLabel);
     
-    //creating the vertical boxes for the gridpane
-    private VBox io1VBox = new VBox();
-    private VBox io2VBox = new VBox();
-    private VBox allowedVBox = new VBox();
+    //all Hbox
+    private HBox titleHBox = new HBox( getTitleLabel());
+    private HBox viewVbox = new HBox(viewBtnVbox, viewTA);
     
-    private ComboBox comboBox;
+    
     
     public TicketView()
     {
-        //setting the maximum value for the payment text area
-        paymentTA.setMaxSize(300, 400);
-        paymentTA.setText("PAYMENTS\n"
-                + "Payments can be made at the following office:\n"
-                + "Business Office, Tandy 107\n"
-                + "Monday thru Friday 8:00 am - 5:00 pm\n"
-                + "$25 per citation, other fees may apply\n"
-                + "$100 for boot removal\n"
-                + "Payment can be mailed to the following address:\n"
-                + "TSC C/O Finance Dept\n"
-                + "Attn: Parking Enforcement\n"
-                + "80 Fort Brown\n"
-                + "Brownsville, TX 78520\n"
-                + "DO NOT MAIL IN CASH!\n"
-                + "For More Information on parking citations please visit:\n"
-                + "www.tsc.edu/parking\n");
+    //modifications for setCenter
+        gridpane.setVgap(15);
+        gridpane.setHgap(15);
+        gridpane.setAlignment(Pos.CENTER);
         
-//----------vertical boxes
-        io1VBox.getChildren().addAll(ticketNoLabel, licenseLabel, stateLabel,permitLabel,modelLabel,colorLabel,reasonLabel,
-                dateLabel,timeLabel,locationLabel,issuedLabel);
-        io1VBox.setSpacing(9);
-        io1VBox.setAlignment(Pos.CENTER);
+        //fonts and size
+        licenseLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        stateLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        permitLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        modelLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        colorLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        reasonLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        dateLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        timeLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        locationLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
+        issuedLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
         
-        //creating a ComboBox
-        comboBox = new ComboBox();
-        comboBox.getItems().addAll("Vehicle has no parking permit","Parked in no parking area/space","Parked in fire lane");
-        comboBox.getItems().addAll("Parked in handicap space","Parked in reserver or assigned space");
-        comboBox.getItems().addAll("Blocking driveway, access or other vehicle", "Parked in 2 spaces");
-        comboBox.getItems().addAll("Expired meter", "Other reason");
-                
-        io2VBox.getChildren().addAll(ticketNoTF,licenseTF,stateTF,permitTF,modelTF,colorTF,comboBox,dateTF,timeTF,
-                locationTF,issuedTF);
-        io2VBox.setAlignment(Pos.CENTER);
+        box1.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box2.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box3.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box4.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box5.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box6.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box7.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box8.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+        box9.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
         
-//----------------buttons for vbox
-        allowedVBox.getChildren().addAll(submitBtn, previousBtn, nextBtn, changePaidBtn, exit);
+        /*************************
+        *  gridpane positioning  *
+        *************************/
+        gridpane.addRow(0,licenseVBox);
+        gridpane.addRow(0, stateVBox);
+        gridpane.addRow(0, permitVBox);
+        gridpane.addRow(1, modelVBox);
+        gridpane.addRow(1, colorVBox);
+        gridpane.addRow(2, checkboxVbox);
+        gridpane.addRow(3, dateVBox);
+        gridpane.addRow(4, timeVBox);
+        gridpane.addRow(3, locationVBox);
+        gridpane.addRow(4, issuedVBox);
+        gridpane.addRow(5, submitBtn);
         
- //---------------display       
-        this.add(allowedVBox, 0, 1, 1,1);
-        this.add(io1VBox, 1,1,1,1);
-        this.add(io2VBox, 2,1,1,1);
-        this.add(paymentTA,3,1,1,1);
-        this.add(paymentinfoLabel,2,2,2,1);
-        this.setHgap(15);
-        this.setVgap(50);
-        this.setAlignment(Pos.CENTER);
+
         
-        this.add(submitBtn,2,3,1,1);
-        this.add(previousBtn,2,3,2,2);
-        this.add(nextBtn,2,3,2,3);
-        this.add(changePaidBtn,2,3,2,4);  
-        this.add(exit,2,3,2,5);
+        
+        
+
+        //setLeft of borderpane
+        viewTA.setEditable(false);
+        viewTA.setPrefHeight(300);
+        viewTA.setPrefWidth(400);
+        
+        
+        //modification setTop of borderpane
+       
+        titleHBox.setAlignment(Pos.CENTER); //alignment to the middle of the top
+        
+        titleLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 40)); //font and size
+       
+       //modification of setRight of the borderpane.
+       paymentInfoLabel.setFont(Font.font("Times New Roman", FontWeight.MEDIUM, 20));
+       paymentTextLabel.setFont(Font.font("Times New Roman", FontWeight.MEDIUM, 16));
+       
+        /*
+        Positions on the borderpane
+        */
+     
+        this.setTop(titleHBox);
+        this.setBottom(feedbackVBox);
+        this.setLeft(viewVbox);
+        this.setCenter(gridpane);
+        this.setRight(paymentInfoVbox);
         
     }
-
-    public int getCurrentTicket()
-    {
-        return currentTicket;
+    
+    public void updateViewNext(ArrayList<Ticket> currentData){
+       
+        String license = "";
+        String state = "";
+        String permit = "";
+        String model  = "";
+        String color = "";
+        String reason = "";
+        String date = "";
+        String time = "";
+        String location = "";
+        String issued = "";
+        String currentTicket1 = "";
+       
+       Ticket current = (Ticket) currentData.get(currentTicket);
+       license = current.getLicense();
+       state = current.getState();
+       permit =  current.getPermit();
+       model  = current.getModel();
+       color = current.getColor();
+       reason = current.getDate();
+       date = current.getReason();
+       time = current.getTime();
+       location = current.getLocation();
+       issued = current.getIssued();
+       currentTicket1 += license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n";
+       
+       currentTicket++;
+       
+       
+       
+       
+        viewTA.setText(currentTicket1);
     }
+  
 
-    public void setCurrentTicket(int currentTicket)
+
+
+    
+    //update ticket
+    
+        
+    
+     public void updateTicketViewAll(ArrayList<Ticket> allTicket){
+        
+        String license = "";
+        String state = "";
+        String permit = "";
+        String model  = "";
+        String color = "";
+        String reason = "";
+        String date = "";
+        String time = "";
+        String location = "";
+        String issued = "";
+        String allticket = "";
+            
+        for (int i = 0; i < allTicket.size(); i++)
+        {
+           Ticket current = (Ticket) allTicket.get(i);
+            
+            license = current.getLicense();
+            state = current.getState();
+            permit =  current.getPermit();
+            model  = current.getModel();
+            color = current.getColor();
+            date = current.getDate();
+            reason = current.getReason();
+            time = current.getTime();
+            location = current.getLocation();
+            issued = current.getIssued();
+            
+            //show everything in the DataBase
+            allticket += license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n"; 
+        }
+        
+        
+        gridpane.getChildren().clear();
+        gridpane.addRow(0, licenseVBox); 
+        gridpane.addRow(0, stateVBox);
+        gridpane.addRow(0, permitVBox);
+        gridpane.addRow(1, modelVBox);
+        gridpane.addRow(1, colorVBox);
+        gridpane.addRow(2, reasonLabel);
+        gridpane.addRow(3, checkboxVbox);
+        gridpane.addRow(4, dateVBox);
+        gridpane.addRow(5, timeVBox);
+        gridpane.addRow(4, locationVBox);
+        gridpane.addRow(5, issuedVBox);
+        gridpane.addRow(6, submitBtn);
+        
+        viewTA.setText(allticket);
+        
+        
+     }       
+     
+     public void Error(){
+     String error = "Error!!";
+     viewTA.setText(error);
+   }
+         
+                 
+        
+         
+     public void clearFields()
     {
-        this.currentTicket = currentTicket;
+        licenseTF.clear();
+        stateTF.clear();
+        permitTF.clear();
+        modelTF.clear();
+        colorTF.clear();
+        reasonInfoTF.clear();
+        dateTF.clear();
+        timeTF.clear();
+        locationTF.clear();
+        issuedTF.clear();
+        
     }
+    
 
-    public Label getTicketNoLabel()
-    {
-        return ticketNoLabel;
-    }
 
-    public void setTicketNoLabel(Label ticketNoLabel)
-    {
-        this.ticketNoLabel = ticketNoLabel;
-    }
-
-    public TextField getTicketNoTF()
-    {
-        return ticketNoTF;
-    }
-
-    public void setTicketNoTF(TextField ticketNoTF)
-    {
-        this.ticketNoTF = ticketNoTF;
-    }
-
+    
     public Label getLicenseLabel()
     {
         return licenseLabel;
@@ -334,6 +532,9 @@ public class TicketView extends GridPane
         this.issuedTF = issuedTF;
     }
 
+    
+    
+    
     public Button getSubmitBtn()
     {
         return submitBtn;
@@ -364,15 +565,6 @@ public class TicketView extends GridPane
         this.nextBtn = nextBtn;
     }
 
-    public Button getChangePaidBtn()
-    {
-        return changePaidBtn;
-    }
-
-    public void setChangePaidBtn(Button changePaidBtn)
-    {
-        this.changePaidBtn = changePaidBtn;
-    }
 
     public Button getExit()
     {
@@ -384,38 +576,425 @@ public class TicketView extends GridPane
         this.exit = exit;
     }
 
-    public TextArea getPaymentTA()
+    public TextArea getViewTA()
     {
-        return paymentTA;
+        return viewTA;
     }
 
-    public void setPaymentTA(TextArea paymentTA)
+    public void setViewTA(TextArea viewTA)
     {
-        this.paymentTA = paymentTA;
+        this.viewTA = viewTA;
     }
 
-    public Label getPaymentinfoLabel()
+
+    public void setFeedbackLabel(Label feedbackLabel)
     {
-        return paymentinfoLabel;
+        this.feedbackLabel = feedbackLabel;
+    }
+    
+    
+        public Label getFeedbackLabel() {
+        return feedbackLabel;
     }
 
-    public void setFeedbackLabel(Label paymentinfoLabel)
-    {
-        this.paymentinfoLabel = paymentinfoLabel;
+    
+        /**
+     * @return the feedbackSubmitBtn
+     */
+    public Button getFeedbackSubmitBtn() {
+        return feedbackSubmitBtn;
     }
 
-    public ComboBox getCurrentReason()
-    {
-        return comboBox;
-        //return comboBox.getValue().toString();
+    /**
+     * @param feedbackSubmitBtn the feedbackSubmitBtn to set
+     */
+    public void setFeedbackSubmitBtn(Button feedbackSubmitBtn) {
+        this.feedbackSubmitBtn = feedbackSubmitBtn;
     }
 
-    public void setCurrentReason(String reason)
-    {
-        comboBox.setValue(reason);
-    }   
-
-    void Error() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * @return the clearViewBtn
+     */
+    public Button getClearViewBtn() {
+        return clearViewBtn;
     }
+
+    /**
+     * @param clearViewBtn the clearViewBtn to set
+     */
+    public void setClearViewBtn(Button clearViewBtn) {
+        this.clearViewBtn = clearViewBtn;
+    }
+
+    /**
+     * @return the arrowBtnHbox
+     */
+    public HBox getArrowBtnHbox() {
+        return arrowBtnHbox;
+    }
+
+    /**
+     * @param arrowBtnHbox the arrowBtnHbox to set
+     */
+    public void setArrowBtnHbox(HBox arrowBtnHbox) {
+        this.arrowBtnHbox = arrowBtnHbox;
+    }
+
+
+
+    /**
+     * @return the titleLabel
+     */
+    public Label getTitleLabel() {
+        return titleLabel;
+    }
+
+    /**
+     * @param titleLabel the titleLabel to set
+     */
+    public void setTitleLabel(Label titleLabel) {
+        this.titleLabel = titleLabel;
+    }
+
+  
+    
+    
+    
+    
+    /**
+     * @return the root
+     */
+    public BorderPane getRoot() {
+        return root;
+    }
+
+    /**
+     * @param root the root to set
+     */
+    public void setRoot(BorderPane root) {
+        this.root = root;
+    }
+
+
+    /**
+     * @return the feedbackTA
+     */
+    public TextArea getFeedbackTA() {
+        return feedbackTA;
+    }
+
+    /**
+     * @param feedbackTA the feedbackTA to set
+     */
+    public void setFeedbackTA(TextArea feedbackTA) {
+        this.feedbackTA = feedbackTA;
+    }
+    /**
+     * @return the reasoninfoTF
+     */
+    public TextField getReasonInfoTF() {
+        return reasonInfoTF;
+    }
+
+    /**
+     * @param reasonInfoTF the reasonInfoTF to set
+     */
+    public void setReasonInfoTF(TextField reasonInfoTF) {
+        this.reasonInfoTF = reasonInfoTF;
+    }
+
+    /**
+     * @param paymentinfoLabel the paymentinfoLabel to set
+
+
+    /**
+     * @return the paymentInfoLabel
+     */
+    public Label getPaymentInfoLabel() {
+        return paymentInfoLabel;
+    }
+
+
+    /**
+     * @return the paymentTextLabel
+     */
+    public Label getPaymentTextLabel() {
+        return paymentTextLabel;
+    }
+
+    /**
+     * @param paymentTextLabel the paymentTextLabel to set
+     */
+    public void setPaymentTextLabel(Label paymentTextLabel) {
+        this.paymentTextLabel = paymentTextLabel;
+    }
+
+    /**
+     * @return the reason1
+     */
+    public String getReason1() {
+        return reason1;
+    }
+
+    /**
+     * @param reason1 the reason1 to set
+     */
+    public void setReason1(String reason1) {
+        this.reason1 = reason1;
+    }
+
+    /**
+     * @return the reason2
+     */
+    public String getReason2() {
+        return reason2;
+    }
+
+    /**
+     * @param reason2 the reason2 to set
+     */
+    public void setReason2(String reason2) {
+        this.reason2 = reason2;
+    }
+
+    /**
+     * @return the reason3
+     */
+    public String getReason3() {
+        return reason3;
+    }
+
+    /**
+     * @param reason3 the reason3 to set
+     */
+    public void setReason3(String reason3) {
+        this.reason3 = reason3;
+    }
+
+    /**
+     * @return the reason4
+     */
+    public String getReason4() {
+        return reason4;
+    }
+
+    /**
+     * @param reason4 the reason4 to set
+     */
+    public void setReason4(String reason4) {
+        this.reason4 = reason4;
+    }
+
+    /**
+     * @return the reason5
+     */
+    public String getReason5() {
+        return reason5;
+    }
+
+    /**
+     * @param reason5 the reason5 to set
+     */
+    public void setReason5(String reason5) {
+        this.reason5 = reason5;
+    }
+
+    /**
+     * @return the reason6
+     */
+    public String getReason6() {
+        return reason6;
+    }
+
+    /**
+     * @param reason6 the reason6 to set
+     */
+    public void setReason6(String reason6) {
+        this.reason6 = reason6;
+    }
+
+    /**
+     * @return the reason7
+     */
+    public String getReason7() {
+        return reason7;
+    }
+
+    /**
+     * @param reason7 the reason7 to set
+     */
+    public void setReason7(String reason7) {
+        this.reason7 = reason7;
+    }
+
+    /**
+     * @return the reason8
+     */
+    public String getReason8() {
+        return reason8;
+    }
+
+    /**
+     * @param reason8 the reason8 to set
+     */
+    public void setReason8(String reason8) {
+        this.reason8 = reason8;
+    }
+
+    /**
+     * @return the reason9
+     */
+    public String getReason9() {
+        return reason9;
+    }
+
+    /**
+     * @param reason9 the reason9 to set
+     */
+    public void setReason9(String reason9) {
+        this.reason9 = reason9;
+    }
+
+    /**
+     * @return the box1
+     */
+    public CheckBox getBox1() {
+        return box1;
+    }
+
+    /**
+     * @param box1 the box1 to set
+     */
+    public void setBox1(CheckBox box1) {
+        this.box1 = box1;
+    }
+
+    /**
+     * @return the box2
+     */
+    public CheckBox getBox2() {
+        return box2;
+    }
+
+    /**
+     * @param box2 the box2 to set
+     */
+    public void setBox2(CheckBox box2) {
+        this.box2 = box2;
+    }
+
+    /**
+     * @return the box3
+     */
+    public CheckBox getBox3() {
+        return box3;
+    }
+
+    /**
+     * @param box3 the box3 to set
+     */
+    public void setBox3(CheckBox box3) {
+        this.box3 = box3;
+    }
+
+    /**
+     * @return the box4
+     */
+    public CheckBox getBox4() {
+        return box4;
+    }
+
+    /**
+     * @param box4 the box4 to set
+     */
+    public void setBox4(CheckBox box4) {
+        this.box4 = box4;
+    }
+
+    /**
+     * @return the box5
+     */
+    public CheckBox getBox5() {
+        return box5;
+    }
+
+    /**
+     * @param box5 the box5 to set
+     */
+    public void setBox5(CheckBox box5) {
+        this.box5 = box5;
+    }
+
+    /**
+     * @return the box6
+     */
+    public CheckBox getBox6() {
+        return box6;
+    }
+
+    /**
+     * @param box6 the box6 to set
+     */
+    public void setBox6(CheckBox box6) {
+        this.box6 = box6;
+    }
+
+    /**
+     * @return the box7
+     */
+    public CheckBox getBox7() {
+        return box7;
+    }
+
+    /**
+     * @param box7 the box7 to set
+     */
+    public void setBox7(CheckBox box7) {
+        this.box7 = box7;
+    }
+
+    /**
+     * @return the box8
+     */
+    public CheckBox getBox8() {
+        return box8;
+    }
+
+    /**
+     * @param box8 the box8 to set
+     */
+    public void setBox8(CheckBox box8) {
+        this.box8 = box8;
+    }
+
+    /**
+     * @return the box9
+     */
+    public CheckBox getBox9() {
+        return box9;
+    }
+
+    /**
+     * @param box9 the box9 to set
+     */
+    public void setBox9(CheckBox box9) {
+        this.box9 = box9;
+    }
+
+    /**
+     * @return the viewBtn
+     */
+    public Button getViewBtn() {
+        return viewBtn;
+    }
+
+    /**
+     * @param viewBtn the viewBtn to set
+     */
+    public void setViewBtn(Button viewBtn) {
+        this.viewBtn = viewBtn;
+    }
+
+
+
 }
