@@ -29,19 +29,19 @@ public class TicketView extends BorderPane
     private Label titleLabel = new Label("Parking Citation");
 
 
-    private Label ticketNoLabel = new Label("Ticket Number:");
+    private Label ticketNoLabel = new Label("Citation No.:");
     private TextField ticketNoTF = new TextField();
             
-    private Label licenseLabel = new Label("License Number:");
+    private Label licenseLabel = new Label("License Plate No.:");
     private TextField licenseTF = new TextField();
     
     private Label stateLabel = new Label("State:");
     private TextField stateTF = new TextField();
     
-    private Label permitLabel = new Label("Permit Number:");
+    private Label permitLabel = new Label("Permit No.:");
     private TextField permitTF = new TextField();
     
-    private Label modelLabel = new Label("Model:");
+    private Label modelLabel = new Label("Vehicle Model:");
     private TextField modelTF = new TextField();
     
     private Label colorLabel = new Label("Color:");
@@ -181,7 +181,7 @@ public class TicketView extends BorderPane
         /*************************
         *  gridpane positioning  *
         *************************/
-        gridpane.addRow(6,ticketNoVBox);
+        
         gridpane.addRow(0,licenseVBox);
         gridpane.addRow(0, stateVBox);
         gridpane.addRow(0, permitVBox);
@@ -189,9 +189,10 @@ public class TicketView extends BorderPane
         gridpane.addRow(1, colorVBox);
         gridpane.addRow(2, checkboxVbox);
         gridpane.addRow(3, dateVBox);
-        gridpane.addRow(4, timeVBox);
-        gridpane.addRow(3, locationVBox);
+        gridpane.addRow(3, timeVBox);
+        gridpane.addRow(4, locationVBox);
         gridpane.addRow(4, issuedVBox);
+        gridpane.addRow(4,ticketNoVBox);
         gridpane.addRow(5, submitBtn);
         
 
