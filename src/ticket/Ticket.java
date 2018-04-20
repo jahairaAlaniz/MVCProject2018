@@ -5,6 +5,7 @@ package ticket;
  */
 public class Ticket 
 {
+    private int ticketNo;
     private String license;
     private String state;
     private String permit;
@@ -22,8 +23,9 @@ public class Ticket
         
     }
     
-    public Ticket(String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String issued) {
-   
+    public Ticket(int ticketNo, String license, String state, String permit, String model, String color, String reason, String date, String time, String location, String issued) {
+        
+        this.ticketNo = ticketNo;
         this.license = license;
         this.state = state;
         this.permit = permit;
@@ -197,5 +199,19 @@ public class Ticket
     public void setIssued(String issued) 
     {
         this.issued = issued;
+    }
+
+    /**
+     * @return the ticketNo
+     */
+    public int getTicketNo() {
+        return ticketNo;
+    }
+
+    /**
+     * @param ticketNo the ticketNo to set
+     */
+    public void setTicketNo(int ticketNo) {
+        this.ticketNo = ticketNo;
     }
 }

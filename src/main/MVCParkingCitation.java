@@ -24,10 +24,10 @@ public class MVCParkingCitation extends Application
     public void start(Stage primaryStage)
     {
         TicketModel ticketModel = new TicketModel();
-        TicketView ticketView = new TicketView();
-        TicketController tc = new TicketController(ticketModel,ticketView);
+        TicketView GUI = new TicketView();
+        TicketController tc = new TicketController(ticketModel,GUI);
         
-        Scene scene = new Scene(ticketView, 1400, 800);
+        Scene scene = new Scene(GUI, 1400, 800);
         
         primaryStage.setTitle("Parking Citation");
         primaryStage.setScene(scene);

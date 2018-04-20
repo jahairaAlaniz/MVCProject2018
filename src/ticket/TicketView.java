@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -20,6 +19,7 @@ import javafx.scene.text.FontWeight;
  */
 public class TicketView extends BorderPane
 {    
+    
     private int currentTicket = 0;
     
     private BorderPane root = new BorderPane();
@@ -29,6 +29,9 @@ public class TicketView extends BorderPane
     private Label titleLabel = new Label("Parking Citation");
 
 
+    private Label ticketNoLabel = new Label("Ticket Number:");
+    private TextField ticketNoTF = new TextField();
+            
     private Label licenseLabel = new Label("License Number:");
     private TextField licenseTF = new TextField();
     
@@ -122,6 +125,7 @@ public class TicketView extends BorderPane
     private HBox reasonInfoHbox = new HBox(box9, reasonInfoTF);    
     
     //all VBox
+    private VBox ticketNoVBox = new VBox(getTicketNoLabel(), getTicketNoTF());
     private VBox licenseVBox = new VBox(licenseLabel, licenseTF);
     private VBox stateVBox = new VBox(stateLabel, stateTF);
     private VBox permitVBox = new VBox(permitLabel, permitTF);
@@ -151,6 +155,7 @@ public class TicketView extends BorderPane
         gridpane.setAlignment(Pos.CENTER);
         
         //fonts and size
+        ticketNoLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
         licenseLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
         stateLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
         permitLabel.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 16));
@@ -171,10 +176,12 @@ public class TicketView extends BorderPane
         box7.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
         box8.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
         box9.setFont(Font.font("Times New Roman", FontWeight.LIGHT, 15));
+
         
         /*************************
         *  gridpane positioning  *
         *************************/
+        gridpane.addRow(6,ticketNoVBox);
         gridpane.addRow(0,licenseVBox);
         gridpane.addRow(0, stateVBox);
         gridpane.addRow(0, permitVBox);
@@ -221,7 +228,7 @@ public class TicketView extends BorderPane
     }
     
     public void updateViewNext(ArrayList<Ticket> currentData){
-       
+        int ticketNo =0;
         String license = "";
         String state = "";
         String permit = "";
@@ -234,7 +241,8 @@ public class TicketView extends BorderPane
         String issued = "";
         String currentTicket1 = "";
        
-       Ticket current = (Ticket) currentData.get(currentTicket);
+       Ticket current = (Ticket) currentData.get(getCurrentTicket());
+       ticketNo = current.getTicketNo();
        license = current.getLicense();
        state = current.getState();
        permit =  current.getPermit();
@@ -245,15 +253,62 @@ public class TicketView extends BorderPane
        time = current.getTime();
        location = current.getLocation();
        issued = current.getIssued();
-       currentTicket1 += license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n";
+       currentTicket1 += ticketNo +"\n"+license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n";
        
-       currentTicket++;
+        setCurrentTicket(getCurrentTicket() + 1);
        
        
        
        
         viewTA.setText(currentTicket1);
     }
+    
+    
+     public void updateViewPrevious(ArrayList<Ticket> currentData){
+        int ticketNo = 0;
+        String license = "";
+        String state = "";
+        String permit = "";
+        String model  = "";
+        String color = "";
+        String reason = "";
+        String date = "";
+        String time = "";
+        String location = "";
+        String issued = "";
+        String currentTicket1 = "";
+       
+       Ticket current = (Ticket) currentData.get(getCurrentTicket());
+       ticketNo = current.getTicketNo();
+       license = current.getLicense();
+       state = current.getState();
+       permit =  current.getPermit();
+       model  = current.getModel();
+       color = current.getColor();
+       date = current.getDate();
+       reason = current.getReason();
+       time = current.getTime();
+       location = current.getLocation();
+       issued = current.getIssued();
+       currentTicket1 += ticketNo + "\n"+license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n";
+       
+       
+        setCurrentTicket(getCurrentTicket() - 1);
+       
+       
+       
+       
+       
+       viewTA.setText(currentTicket1);
+        }
+    
+    	
+    
+    /*****************************
+     * updateTicketGUI function  *
+     ****************************/
+    
+    
   
 
 
@@ -265,6 +320,7 @@ public class TicketView extends BorderPane
     
      public void updateTicketViewAll(ArrayList<Ticket> allTicket){
         
+        int ticketNo = 0;
         String license = "";
         String state = "";
         String permit = "";
@@ -281,6 +337,7 @@ public class TicketView extends BorderPane
         {
            Ticket current = (Ticket) allTicket.get(i);
             
+            ticketNo = current.getTicketNo();
             license = current.getLicense();
             state = current.getState();
             permit =  current.getPermit();
@@ -293,11 +350,12 @@ public class TicketView extends BorderPane
             issued = current.getIssued();
             
             //show everything in the DataBase
-            allticket += license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n"; 
+            allticket += ticketNo + "\n" +license + "\n" + state + "\n" + permit + "\n" + model + "\n" + color + "\n" + reason + "\n" + date + "\n" + time + "\n" + location + "\n" + issued + "\n\n"; 
         }
         
         
         gridpane.getChildren().clear();
+        gridpane.addRow(6,ticketNoVBox);
         gridpane.addRow(0, licenseVBox); 
         gridpane.addRow(0, stateVBox);
         gridpane.addRow(0, permitVBox);
@@ -326,6 +384,8 @@ public class TicketView extends BorderPane
          
      public void clearFields()
     {
+        getTicketNoTF().clear();
+        ticketNoTF.clear();
         licenseTF.clear();
         stateTF.clear();
         permitTF.clear();
@@ -339,6 +399,9 @@ public class TicketView extends BorderPane
         
     }
     
+ public void invalidTicketPrevious(){
+        
+    }
 
 
     
@@ -993,6 +1056,48 @@ public class TicketView extends BorderPane
      */
     public void setViewBtn(Button viewBtn) {
         this.viewBtn = viewBtn;
+    }
+
+    /**
+     * @return the currentTicket
+     */
+    public int getCurrentTicket() {
+        return currentTicket;
+    }
+
+    /**
+     * @param currentTicket the currentTicket to set
+     */
+    public void setCurrentTicket(int currentTicket) {
+        this.currentTicket = currentTicket;
+    }
+
+    /**
+     * @return the ticketNoLabel
+     */
+    public Label getTicketNoLabel() {
+        return ticketNoLabel;
+    }
+
+    /**
+     * @param ticketNoLabel the ticketNoLabel to set
+     */
+    public void setTicketNoLabel(Label ticketNoLabel) {
+        this.ticketNoLabel = ticketNoLabel;
+    }
+
+    /**
+     * @return the ticketNoTF
+     */
+    public TextField getTicketNoTF() {
+        return ticketNoTF;
+    }
+
+    /**
+     * @param ticketNoTF the ticketNoTF to set
+     */
+    public void setTicketNoTF(TextField ticketNoTF) {
+        this.ticketNoTF = ticketNoTF;
     }
 
 

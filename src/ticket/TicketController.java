@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ticket;
 
 import java.util.ArrayList;
@@ -6,144 +11,151 @@ import javafx.event.EventHandler;
 
 /**
  *
- * @author Jahaira Alaniz
+ * @author jahaira
  */
-public class TicketController
-{
-    private TicketModel ticketModel;
-    private TicketView ticketView;
+public class TicketController {
+    TicketModel ticketModel;
+    TicketView GUI;
     int j = 0;
     
-    
-    
-    public TicketController(TicketModel ticketModel, TicketView ticketView)
-    {
+    public TicketController(TicketModel ticketModel, TicketView GUI) {
         this.ticketModel = ticketModel;
-        this.ticketView = ticketView;
+        this.GUI = GUI;
         attachHandlers();
     }
+   
     
+    /*
+    *  all Button eventhandler
+    */
     public void attachHandlers()
-            
     {
-              ticketView.getViewBtn().setOnAction(
-              new EventHandler<ActionEvent>(){
-              @Override
-              public void handle(ActionEvent event)
-              {
-                    
-                 ArrayList<Ticket> Tickets = ticketModel.getCurrentTickets();
-		 	
-		ticketView.updateTicketViewAll(Tickets);
-                ticketModel.ReadFile();
-               }
-               }
-             
-      
-      );  
         
-        ticketView.getSubmitBtn().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                String license = ticketView.getLicenseTF().getText();
-                String state = ticketView.getStateTF().getText();
-                String permit = ticketView.getPermitTF().getText();
-                String model = ticketView.getModelTF().getText();
-                String color = ticketView.getColorTF().getText();
-                String reason = ticketView.getReasonInfoTF().getText();
-                String date = ticketView.getDateTF().getText();
-                String time = ticketView.getTimeTF().getText();
-                String location = ticketView.getLocationTF().getText();
-                String issued = ticketView.getIssuedTF().getText();
-                
-                
-                 if(ticketView.getBox1().isSelected())
-                        reason = ticketView.getReason1();
-                    if(ticketView.getBox2().isSelected())
-                        reason = ticketView.getReason2();
-                    if(ticketView.getBox3().isSelected())
-                        reason = ticketView.getReason3();
-                    if(ticketView.getBox4().isSelected())
-                        reason = ticketView.getReason4();
-                    if(ticketView.getBox5().isSelected())
-                        reason = ticketView.getReason5();
-                    if(ticketView.getBox6().isSelected())
-                        reason = ticketView.getReason6();
-                    if(ticketView.getBox7().isSelected())
-                        reason = ticketView.getReason7();
-                    if(ticketView.getBox8().isSelected())
-                        reason = ticketView.getReason8();
-                    if(ticketView.getBox9().isSelected())
-                        reason = ticketView.getReasonInfoTF().getText();
-                    
-                
-                
-                Ticket currentTicket1 = new Ticket(license,state,permit,model,color,reason,date,time,location,issued);
-                ticketModel.setCurrentTicket1(currentTicket1);
-                ticketView.clearFields();
-
-            }
-            }
-        
-        );
-
-        
-        ticketView.getPreviousBtn().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
-                ticketView.updateViewNext(currentData);
-                ticketModel.ReadFile();
-            }
-        } );
-        
-        
-        ticketView.getNextBtn().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
-                ticketView.updateViewNext(currentData);
-                ticketModel.ReadFile();
-            }
-        } );
-        
-        
-         ticketView.getFeedbackSubmitBtn().setOnAction(
+       /********************************
+        *   View button eventhandler   *
+        *******************************/
+      GUI.getViewBtn().setOnAction(
                 new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent event)
                 {
-                    ticketView.getFeedbackTA().clear();
+                    ticketModel.Database();
+                    ArrayList<Ticket> Tickets = ticketModel.getCurrentTickets();
+		
+                    GUI.updateTicketViewAll(Tickets);
+                    GUI.clearFields();
                 }
                 }
-      
-      );
              
       
-      ticketView.getClearViewBtn().setOnAction(
+      );
+      
+      
+      /*************************************
+      *   form submit Button eventhandler  *
+      *************************************/
+      GUI.getSubmitBtn().setOnAction(
                 new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent event)
                 {
-                    ticketView.getViewTA().clear();
+                    //get fields
+                    int ticketNo = Integer.parseInt(GUI.getTicketNoTF().getText());
+                    String license = GUI.getLicenseTF().getText();
+                    String state = GUI.getStateTF().getText();
+                    String permit = GUI.getPermitTF().getText();
+                    String model = GUI.getModelTF().getText();
+                    String color = GUI.getColorTF().getText();
+                    String reason = GUI.getReasonInfoTF().getText();
+                    String date = GUI.getDateTF().getText();
+                    String time = GUI.getTimeTF().getText();
+                    String location = GUI.getLocationTF().getText();
+                    String issued = GUI.getIssuedTF().getText();
+                    
+
+                    
+                    
+                    if(GUI.getBox1().isSelected())
+                        reason = GUI.getReason1();
+                    if(GUI.getBox2().isSelected())
+                        reason = GUI.getReason2();
+                    if(GUI.getBox3().isSelected())
+                        reason = GUI.getReason3();
+                    if(GUI.getBox4().isSelected())
+                        reason = GUI.getReason4();
+                    if(GUI.getBox5().isSelected())
+                        reason = GUI.getReason5();
+                    if(GUI.getBox6().isSelected())
+                        reason = GUI.getReason6();
+                    if(GUI.getBox7().isSelected())
+                        reason = GUI.getReason7();
+                    if(GUI.getBox8().isSelected())
+                        reason = GUI.getReason8();
+                    if(GUI.getBox9().isSelected())
+                        reason = GUI.getReasonInfoTF().getText();
+                    
+                    
+                    
+                    Ticket currentTicket = new Ticket(ticketNo, license, state, permit, model, color, reason, date, time, location, issued);
+                    ticketModel.setCurrentTicket(currentTicket);
+                    GUI.clearFields();
                 }
                 }
       
       );
-
-        
-        
-        
-        ticketView.getExit().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                System.exit(0);
-            }
-        } );
-        
+      
+      GUI.getFeedbackSubmitBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    GUI.getFeedbackTA().clear();
+                }
+                }
+      
+      );
+      /******************************************
+      *   feedback submit button eventhandler   *
+      ******************************************/        
+      GUI.getClearViewBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    GUI.getViewTA().clear();
+                }
+                }
+      
+      );
+      
+       
+      GUI.getNextBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
+                    GUI.updateViewNext(currentData);
+                
+                }
+                }
+      
+      );
+      
+      GUI.getPreviousBtn().setOnAction(
+                new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event)
+                {
+                    ArrayList<Ticket> currentData = ticketModel.getCurrentTickets();
+                    GUI.updateViewPrevious(currentData);
+                
+                }
+                }
+      
+      );
+      
     }
+    
+    
 }
